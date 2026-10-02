@@ -1,0 +1,22 @@
+{
+  "name": "apk-metadata-inspector",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "canopy dev",
+    "build": "tsc && vite build"
+  },
+  "dependencies": {
+    "@mediamonks/canopy": "^0.0.6",
+    "jszip": "^3.10.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.8.0",
+    "vite": "^7.0.0"
+  }
+}

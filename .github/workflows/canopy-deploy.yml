@@ -1,0 +1,34 @@
+# Deploy to Canopy on every push to main. GitHub's runners are the build
+# farm — the platform owns no build infrastructure.
+#
+# Needs a CANOPY_DEPLOY_TOKEN repo secret: create a deploy token in the
+# dashboard (project → Settings → Deploy tokens) or with `canopy token
+# create`, then add it via `gh secret set CANOPY_DEPLOY_TOKEN` or the repo's
+# Settings → Secrets. Until the secret is set, this workflow skips itself
+# instead of failing the build.
+name: Deploy to Canopy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CANOPY_DEPLOY_TOKEN: ${{ secrets.CANOPY_DEPLOY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Install dependencies
+        if: env.CANOPY_DEPLOY_TOKEN != ''
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Deploy
+        if: env.CANOPY_DEPLOY_TOKEN != ''
+        run: npm exec --yes @mediamonks/canopy-cli deploy
+      - name: Skipped (no deploy token)
+        if: env.CANOPY_DEPLOY_TOKEN == ''
+        run: echo "CANOPY_DEPLOY_TOKEN secret not set — skipping deploy."

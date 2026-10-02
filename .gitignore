@@ -1,0 +1,4 @@
+node_modules/
+dist/
+.canopy/
+.DS_Store

@@ -1,0 +1,6 @@
+{
+  "slug": "apk-metadata-inspector",
+  "build": "npm run build",
+  "dist": "dist",
+  "profile": "main"
+}
